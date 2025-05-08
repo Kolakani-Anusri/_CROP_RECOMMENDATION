@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simple Crop Recommendation</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #f0f9ff;
+    color: #1a1a1a;
+  }
+  h1 {
+    text-align: center;
+    color: #2c7be5;
+  }
+  label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+  input[type=number] {
+    width: 100%;
+    padding: 0.4rem;
+    margin-top: 0.3rem;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  button {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.7rem;
+    background-color: #2c7be5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #1a5fc4;
+  }
+  #result {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    color: #2c7be5;
+  }
+  footer {
+    margin-top: 3rem;
+    font-size: 0.8rem;
+    text-align: center;
+    color: #666;
+  }
+</style>
+</head>
+<body>
+<h1>Crop Recommendation</h1>
+<form id="crop-form">
+  <label for="N">Nitrogen (N):</label>
+  <input type="number" id="N" name="N" min="0" max="140" step="1" required />
+
+  <label for="P">Phosphorus (P):</label>
+  <input type="number" id="P" name="P" min="0" max="140" step="1" required />
+
+  <label for="K">Potassium (K):</label>
+  <input type="number" id="K" name="K" min="0" max="250" step="1" required />
+
+  <label for="temperature">Temperature (°C):</label>
+  <input type="number" id="temperature" name="temperature" min="0" max="50" step="0.1" required />
+
+  <label for="humidity">Humidity (%):</label>
+  <input type="number" id="humidity" name="humidity" min="0" max="100" step="0.1" required />
+
+  <label for="ph">Soil pH:</label>
+  <input type="number" id="ph" name="ph" min="0" max="14" step="0.1" required />
+
+  <label for="rainfall">Rainfall (mm):</label>
+  <input type="number" id="rainfall" name="rainfall" min="0" max="500" step="1" required />
+
+  <button type="submit">Get Recommendation</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+  // Simple rule-based crop recommendation function
+  function recommendCrop(features) {
+    const { N, P, K, temperature, humidity, ph, rainfall } = features;
+
+    // This is a very basic example mimicking some simple conditions.
+    // Replace with more accurate decision trees or ML model logic as needed.
+
+    if (N > 80 && P > 40 && K > 40) {
+      if (temperature >= 20 && temperature <= 30 && humidity > 70 && rainfall > 150) {
+        return "Rice";
+      } else {
+        return "Sugarcane";
+      }
+    } else if (N > 50 && P > 40 && K > 30) {
+      if (ph >= 6 && ph <= 7 && temperature > 20) {
+        return "Maize";
+      } else {
+        return "Cotton";
+      }
+    } else if (N <= 50) {
+      return "Wheat";
+    }
+    return "Unable to recommend crop with given parameters";
+  }
+
+  document.getElementById("crop-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const features = {
+      N: parseFloat(document.getElementById("N").value),
+      P: parseFloat(document.getElementById("P").value),
+      K: parseFloat(document.getElementById("K").value),
+      temperature: parseFloat(document.getElementById("temperature").value),
+      humidity: parseFloat(document.getElementById("humidity").value),
+      ph: parseFloat(document.getElementById("ph").value),
+      rainfall: parseFloat(document.getElementById("rainfall").value),
+    };
+
+    const recommendation = recommendCrop(features);
+    document.getElementById("result").textContent = "🌱 Recommended Crop: " + recommendation;
+  });
+</script>
+<footer>
+  &copy; 2024 Crop Recommendation Demo
+</footer>
+</body>
+</html>
